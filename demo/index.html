@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模型展示</title>
+    <style>
+        body { 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0; 
+             }
+        canvas { display: block; }
+        .dropdown1 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+        .dropdown2 {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+        .dropdown3 {
+            position: absolute;
+            top: 120px;
+            left: 20px;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+        .dropdown4 {
+            position: absolute;
+            top: 170px;
+            left: 20px;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+        .dropdown5 {
+            position: absolute;
+            top: 220px;
+            left: 20px;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+        .dropdown select {
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown {
+                    position: absolute;
+                    top: 20px;
+                    left: 20px;
+                    z-index: 1;
+                    margin-bottom: 10px;
+        }
+        @media (max-width: 768px) {
+                                    .dropdown {
+                                    position: static;
+                                    margin-bottom: 20px;
+                                    }
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <div class="dropdown1" id="dropdown1">
+            <select>
+                <option value=""hidden disabled selected>頭部</option>
+                <option value="model1_1">頭</option>
+                <option value="">關閉</option>
+            </select>
+        </div>
+        <div class="dropdown2" id="dropdown2">
+            <select>
+                <option value="model2"hidden disabled selected>手臂</option>
+                <option value="model2_1">左肩</option>
+                <option value="model2_2">右肩</option>
+                <option value="model2_3">左手</option>
+                <option value="model2_4">右手</option>
+                <option value="model2_5">左手臂</option>
+                <option value="model2_6">右手臂</option>
+                <option value="model2_7">手臂</option>
+                <option value="model2_8">上身</option>
+                <option value="">關閉</option>
+            </select>
+        </div>
+        <div class="dropdown3" id="dropdown3">
+            <select>
+                <option value=""hidden disabled selected>上身</option>
+                <option value="model3_1">胸部</option>
+                <option value="model3_2">腰</option>
+                <option value="">關閉</option>
+            </select>
+        </div>
+        <div class="dropdown4" id="dropdown4">
+            <select>
+                <option value=""hidden disabled selected>腿部</option>
+                <option value="model4_1">左大腿</option>
+                <option value="model4_2">右大腿</option>
+                <option value="model4_3">左小腿</option>
+                <option value="model4_4">右小腿</option>
+                <option value="model4_5">左腿</option>
+                <option value="model4_6">右腿</option>
+                <option value="model4_7">下身</option>
+                <option value="">關閉</option>
+            </select>
+        </div>
+        <div class="dropdown5" id="dropdown5">
+            <select>
+                <option value=""hidden disabled selected>直接顯示</option>
+                <option value="model5_1">薩克</option>
+                <option value="">關閉</option>
+            </select>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xdddddd);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const hlight = new THREE.AmbientLight(0x404040, 2);
+        scene.add(hlight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(0, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        const loader = new THREE.GLTFLoader();
+        loader.load('path/to/your/skeleton.glb', function(gltf) {
+            scene.add(gltf.scene);
+            animate();
+        }, undefined, function(error) {
+            console.error(error);
+        });
+        let modelsGroup1 = {};
+        let modelsGroup2 = {};
+        let modelsGroup3 = {};
+        let modelsGroup4 = {};
+        let modelsGroup5 = {};
+
+        const modelPathsGroup1 = {
+            model1_1: 'path/to/your/zaku_head.glb',
+            
+        };//頭
+
+        const modelPathsGroup2 = {
+            model2: 'path/to/your/zaku_shoulder.glb',
+            model2_1: 'path/to/your/zaku_leftshoulder.glb',
+            model2_2: 'path/to/your/zaku_rightshoulder.glb',
+            model2_3: 'path/to/your/zaku_lefthand.glb',
+            model2_4: 'path/to/your/zaku_righthand.glb',
+            model2_5: 'path/to/your/zaku_leftarm.glb',
+            model2_6: 'path/to/your/zaku_rightarm.glb',
+            model2_7: 'path/to/your/zaku_arm.glb',
+            model2_8: 'path/to/your/zaku_up.glb',
+        };//手臂
+        const modelPathsGroup3 = {
+            model3_1: 'path/to/your/zaku_chest.glb',
+            model3_2: 'path/to/your/zaku_waist.glb',
+        };//上身
+        const modelPathsGroup4 = {
+            model4_1: 'path/to/your/zaku_leftthigh.glb',
+            model4_2: 'path/to/your/zaku_rightthigh.glb',
+            model4_3: 'path/to/your/zaku_leftcalf.glb',
+            model4_4: 'path/to/your/zaku_rightcalf.glb',
+            model4_5: 'path/to/your/zaku_leftleg.glb',
+            model4_6: 'path/to/your/zaku_rightleg.glb',
+            model4_7: 'path/to/your/zaku_down.glb',
+            
+        };//腿
+        const modelPathsGroup5 = {
+            model5_1: 'path/to/your/zaku.glb',
+            
+        };//直接顯示
+
+        function loadModel(key, modelPaths, modelsGroup) {
+            return new Promise((resolve, reject) => {
+                loader.load(modelPaths[key], function(gltf) {
+                    modelsGroup[key] = gltf.scene;
+                    modelsGroup[key].visible = false;
+                    scene.add(modelsGroup[key]);
+                    resolve();
+                }, undefined, function(error) {
+                    console.error(error);
+                    reject(error);
+                });
+            });
+        }
+
+        async function loadAllModels(modelPaths, modelsGroup) {
+            for (const key in modelPaths) {
+                await loadModel(key, modelPaths, modelsGroup);
+            }
+        }
+
+        loadAllModels(modelPathsGroup1, modelsGroup1);
+        loadAllModels(modelPathsGroup2, modelsGroup2);
+        loadAllModels(modelPathsGroup3, modelsGroup3);
+        loadAllModels(modelPathsGroup4, modelsGroup4);
+        loadAllModels(modelPathsGroup5, modelsGroup5);
+
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.screenSpacePanning = false;
+        controls.maxPolarAngle = Math.PI / 2;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        function setupDropdown(dropdownClass, modelsGroup) {
+            const dropdowns = document.querySelectorAll(`.${dropdownClass} select`);
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('change', function() {
+                    const selectedValue = this.value;
+                    Object.keys(modelsGroup).forEach(key => {
+                        modelsGroup[key].visible = (key === selectedValue);
+                    });
+                    dropdowns.forEach(dd => {
+                        if (dd !== this) {
+                            dd.value = '';
+                        }
+                    });
+                });
+            });
+        }
+
+        setupDropdown('dropdown1', modelsGroup1);
+        setupDropdown('dropdown2', modelsGroup2);
+        setupDropdown('dropdown3', modelsGroup3);
+        setupDropdown('dropdown4', modelsGroup4);
+        setupDropdown('dropdown5', modelsGroup5);
+    </script>
+
+</body>
+</html>
